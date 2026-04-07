@@ -4,73 +4,7 @@
 %{
 #include <iostream>
 #include <string>
-
-using namespace std;
-
-enum TokenType {
-    TOKEN_EOF = 0,
-
-    /* Keywords */
-    TOKEN_AND,
-    TOKEN_DECLARE,
-    TOKEN_DO,
-    TOKEN_ELSE,
-    TOKEN_ENDDECLARE,
-    TOKEN_EXIT,
-    TOKEN_PROCEDURE,
-    TOKEN_FUNCTION,
-    TOKEN_PRINT,
-    TOKEN_CALL,
-    TOKEN_IF,
-    TOKEN_IN,
-    TOKEN_INOUT,
-    TOKEN_NOT,
-    TOKEN_SELECT,
-    TOKEN_PROGRAM,
-    TOKEN_OR,
-    TOKEN_RETURN,
-    TOKEN_WHILE,
-    TOKEN_DEFAULT,
-
-    /* Assignment and Statement Terminator */
-    TOKEN_ASSIGN,       /* := */
-    TOKEN_SEMICOLON,    /* ;  */
-
-    /* Arithmetic Operators */
-    TOKEN_STAR,         /* *  */
-    TOKEN_SLASH,        /* /  */
-    TOKEN_PLUS,         /* +  */
-    TOKEN_MINUS,        /* -  */
-
-    /* Relational Operators */
-    TOKEN_EQ,           /* =  */
-    TOKEN_LT,           /* <  */
-    TOKEN_GT,           /* >  */
-    TOKEN_NEQ,          /* <> */
-    TOKEN_LEQ,          /* <= */
-    TOKEN_GEQ,          /* >= */
-
-    /* Separators */
-    TOKEN_LBRACE,       /* {  */
-    TOKEN_RBRACE,       /* }  */
-    TOKEN_COMMA,        /* ,  */
-
-    /* Parentheses and Brackets */
-    TOKEN_LPAREN,       /* (  */
-    TOKEN_RPAREN,       /* )  */
-    TOKEN_LBRACKET,     /* [  */
-    TOKEN_RBRACKET,     /* ]  */
-
-    /* Identifiers and Numbers */
-    TOKEN_IDENTIFIER,
-    TOKEN_NUMBER,
-
-    /* Errors */
-    TOKEN_UNKNOWN
-};
-
-    /* A safe copy of ours that isn't subject to be spoiled by Flex's internal processes */
-string tokenValue;
+#include "tokens.h"
 %}
 
 /* Flex options */
@@ -159,24 +93,3 @@ IDENTIFIER  {LETTER}({LETTER}|{DIGIT})*
 .               { tokenValue = yytext; return TOKEN_UNKNOWN; }
 
 %%
-/* ========================================================================== */
-/* SECTION 3: User Code (C/C++ functions)                                     */
-/* ========================================================================== */
-
-int main() {
-    int token;
-
-    cout << "Ciscal Lexer started...\n";
-    cout << "Type something and press Enter (or Ctrl+D to exit):\n";
-    
-    /* Start the lexical analysis */
-    while ((token = yylex()) != 0) {
-        cout << "Token ID: " << token <<"\n";
-
-        if (token == TOKEN_IDENTIFIER || token == TOKEN_NUMBER || token == TOKEN_UNKNOWN)
-            cout << " (Value: " << tokenValue << ")";
-        cout << "\n";
-    }
-    
-    return 0;
-}
